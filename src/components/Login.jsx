@@ -11,7 +11,7 @@ function Login() {
   useEffect(() => {
     const token = Cookies.get("jwtToken");
     if (token !== undefined) {
-      navigate("/leaderboard", { replace: true });
+      navigate("/", { replace: true });
     } else {
       setCheckingToken(false);
     }
