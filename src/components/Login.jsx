@@ -64,7 +64,7 @@ function Login() {
       expires: 30,
       path: "/",
     });
-    navigate("/leaderboard", { replace: true });
+    navigate("/", { replace: true });
   };
 
   if (checkingToken) {

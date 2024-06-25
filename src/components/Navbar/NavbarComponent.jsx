@@ -1,9 +1,17 @@
 import React from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 function NavbarComponent() {
+  const navigate = useNavigate();
   let [navElement, setNavElement] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  const logOut = () => {
+    Cookies.remove("jwtToken");
+    console.log("Logged out");
+    navigate("/login", { replace: true });
+  };
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
@@ -61,18 +69,19 @@ function NavbarComponent() {
                   <li>
                     <a
                       href="#"
-                      className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                      className="block px-4 py-2 text-center hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                     >
                       Dashboard
                     </a>
                   </li>
-                  <li>
-                    <a
-                      href="#"
-                      className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                  <li className="flex justify-center">
+                    <button
+                      type="button"
+                      className="block w-full text-center px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                      onClick={logOut}
                     >
                       Sign out
-                    </a>
+                    </button>
                   </li>
                 </ul>
               </div>
