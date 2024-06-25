@@ -28,10 +28,18 @@ const CoursePage = () => {
   }
 
   return (
-    <div>
+    
+      
+      <div className='min-h-[calc(100vh-64px)]'>
+      <div className='flex h-full '>
       <Sidebar/>
+      <div className="no-scrollbar grow overflow-y-auto p-4">
       <Outlet />
+      </div>
     </div>
+    </div>
+    
+    
   );
 };
 

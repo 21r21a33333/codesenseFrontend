@@ -33,10 +33,11 @@ const YourComponent = () => {
   //   alert(JSON.stringify(courses));
   // console.log(courses);
   return (
-    <div>
-      <h2 className="mb-8 mt-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
+    <div className="px-16 flex flex-col items-center justify-center h-screen ">
+      <h2 className="mb-4 mt-2 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
         Courses
       </h2>
+  
       <div className="md:px-4 md:grid md:grid-cols-2 lg:grid-cols-3 gap-5 space-y-4 md:space-y-0">
       {courses.map((course) => (
         <CourseCard key={course.courseid} course={course} />

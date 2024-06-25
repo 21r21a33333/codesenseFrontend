@@ -23,7 +23,7 @@ function NavbarComponent() {
   };
   return (
     <div >
-      <nav className=" bg-white dark:bg-gray-900   w-full  border-b border-gray-200 dark:border-gray-600 ">
+      <nav className=" fixed top-0 z-50 bg-white dark:bg-gray-900   w-full  border-b border-gray-200 dark:border-gray-600 ">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4   ">
           <Link
             to="/"
@@ -267,6 +267,7 @@ function NavbarComponent() {
           </div>
         </div>
       </nav>
+      <div className='h-16 w-full print:hidden'></div>
     </div>
   );
 }

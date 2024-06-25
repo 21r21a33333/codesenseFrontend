@@ -16,7 +16,7 @@ import LandingPage from "./components/Homepage/LandingPage";
 import AllCourses from "./components/Courses/AllCourses";
 import { Outlet } from "react-router-dom";
 import CourseLandingLayout from "./components/CourseLanding/courseLandingLayout";
-
+import CourseHome from "./components/CourseLanding/CourseHome";
 function App() {
   return (
     <BrowserRouter>
@@ -27,15 +27,14 @@ function App() {
             <Route index element={<LandingPage />} />
             <Route path="leaderboard" element={<p>leaderboard</p>} />
             <Route path="courses">
-              <Route index element={<AllCourses />} />
+              <Route index element={ <AllCourses />} />
               <Route
                 path=":courseid"
                 element={
-
                   <CourseLandingLayout/>
                 }
               >
-                <Route index element={<p>course details</p>} />
+                <Route index element={<CourseHome/>} />
                 <Route path=":lessonid" element={<p>lesson details</p>} />
               </Route>
             </Route>
