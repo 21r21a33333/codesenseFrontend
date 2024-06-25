@@ -2,11 +2,17 @@ import React from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useLocation  } from "react-router-dom";
+
 function NavbarComponent() {
+
   const navigate = useNavigate();
-  let [navElement, setNavElement] = useState("");
+  const location = useLocation();
+  const { pathname } = location;
+  let mark=(pathname.split("/")[1])?pathname.split("/")[1]:"home";
+  let [navElement, setNavElement] = useState(mark);
   const [isOpen, setIsOpen] = useState(false);
+
   const logOut = () => {
     Cookies.remove("jwtToken");
     console.log("Logged out");
@@ -16,11 +22,11 @@ function NavbarComponent() {
     setIsOpen(!isOpen);
   };
   return (
-    <div>
-      <nav className=" bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
-        <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 sticky ">
+    <div >
+      <nav className=" bg-white dark:bg-gray-900   w-full  border-b border-gray-200 dark:border-gray-600 ">
+        <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4   ">
           <Link
-            href="https://flowbite.com/"
+            to="/"
             className="flex items-center space-x-3 rtl:space-x-reverse"
           >
             <img
@@ -115,8 +121,12 @@ function NavbarComponent() {
             id="navbar-sticky"
           >
             <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-              <li>
-                <div className="flex items-center justify-center">
+              <li onClick={()=>{setNavElement("home")}}>
+                <div
+                  className={`flex items-center justify-center ${
+                    navElement === "home" ? "border-b-4 border-blue-600" : ""
+                  }`}
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -133,7 +143,7 @@ function NavbarComponent() {
                   </svg>
 
                   <Link
-                    href="#"
+                    to="/"
                     className="block py-2 px-3 text-black  rounded md:bg-transparent md:text-black-700 md:p-0 md:dark:text-blue-500"
                     aria-current="page"
                   >
@@ -141,8 +151,10 @@ function NavbarComponent() {
                   </Link>
                 </div>
               </li>
-              <li>
-                <div className="flex items-center justify-center">
+              <li onClick={()=>{setNavElement("leaderboard")}}>
+                <div className={`flex items-center justify-center ${
+                navElement === 'leaderboard' ? 'border-b-4 border-blue-600' : ''
+            }`}>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -159,7 +171,7 @@ function NavbarComponent() {
                   </svg>
 
                   <Link
-                    href="#"
+                    to="leaderboard"
                     className="block py-2 px-3 text-black  rounded md:bg-transparent md:text-black-700 md:p-0 md:dark:text-blue-500"
                     aria-current="page"
                   >
@@ -167,8 +179,10 @@ function NavbarComponent() {
                   </Link>
                 </div>
               </li>
-              <li>
-                <div className="flex items-center justify-center">
+              <li onClick={()=>{setNavElement("courses")}}>
+                <div className={`flex items-center justify-center ${
+                navElement === 'courses' ? 'border-b-4 border-blue-600' : ''
+            }`}>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -185,7 +199,7 @@ function NavbarComponent() {
                   </svg>
 
                   <Link
-                    href="#"
+                    to="courses"
                     className="block py-2 px-3 text-black  rounded md:bg-transparent md:text-black-700 md:p-0 md:dark:text-blue-500"
                     aria-current="page"
                   >
@@ -193,8 +207,10 @@ function NavbarComponent() {
                   </Link>
                 </div>
               </li>
-              <li>
-                <div className="flex items-center justify-center">
+              <li onClick={()=>{setNavElement("jobs")}}>
+                <div className={`flex items-center justify-center ${
+                navElement === 'jobs' ? 'border-b-4 border-blue-600' : ''
+            }`}>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -211,7 +227,7 @@ function NavbarComponent() {
                   </svg>
 
                   <Link
-                    href="#"
+                    to="jobs"
                     className="block py-2 px-3 text-black  rounded md:bg-transparent md:text-black-700 md:p-0 md:dark:text-blue-500"
                     aria-current="page"
                   >
@@ -219,8 +235,10 @@ function NavbarComponent() {
                   </Link>
                 </div>
               </li>
-              <li>
-                <div className="flex items-center justify-center">
+              <li onClick={()=>{setNavElement("contests")}}>
+                <div className={`flex items-center justify-center ${
+                navElement === 'contests' ? 'border-b-4 border-blue-600' : ''
+            }`}>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -237,7 +255,7 @@ function NavbarComponent() {
                   </svg>
 
                   <Link
-                    href="#"
+                    to="contests"
                     className="block py-2 px-3 text-black  rounded md:bg-transparent md:text-black-700 md:p-0 md:dark:text-blue-500"
                     aria-current="page"
                   >

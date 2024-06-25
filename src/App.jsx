@@ -3,17 +3,30 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import ProtectedRoute from "./components/ProtectedRoute";
 import './App.css';
-import { BrowserRouter, Routes, Route, } from "react-router-dom";
+import { BrowserRouter, Routes, Route, createBrowserRouter,
+  createRoutesFromElements } from "react-router-dom";
 import Login from './components/Login'
 import Home from './components/Home';
+import LandingPage from './components/Homepage/LandingPage';
+import AllCourses from './components/Courses/AllCourses';
 
 function App() {
   return (
     <BrowserRouter>
     <Routes>
-      <Route exact path="/login" element={<Login />} />
+      <Route  path="/login" element={<Login />} />
       <Route element={<ProtectedRoute />}>
-        <Route exact path="/" element={<Home/>} />
+        <Route  path="/" element={<Home/>} >
+            <Route index element={<LandingPage/>} />
+            <Route path="leaderboard" element={<p>leaderboard</p> } />
+            <Route path="courses" >
+                <Route index element={<AllCourses />} />
+                <Route path=":courseid" element={<p>course</p>} />
+              </Route>
+            <Route path="jobs" element={<p>jobs</p>} />
+            <Route path="contests" element={<p>contests</p>}/>
+        </Route>
+        
       </Route>
     </Routes>
   </BrowserRouter>
