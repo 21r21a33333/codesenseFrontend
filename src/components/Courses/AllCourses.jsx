@@ -31,7 +31,7 @@ const YourComponent = () => {
     fetchCourses();
   }, []); // Empty dependency array means this effect runs only once after initial render
   //   alert(JSON.stringify(courses));
-  console.log(courses);
+  // console.log(courses);
   return (
     <div>
       <h2 className="mb-8 mt-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
