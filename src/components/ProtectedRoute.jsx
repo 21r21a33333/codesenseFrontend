@@ -8,7 +8,7 @@ const ProtectedRoute = () => {
   useEffect(() => {
     const jwtToken = Cookies.get("jwtToken");
     if (jwtToken === undefined) {
-      navigate("/", { replace: true });
+      navigate("/login", { replace: true });
     }
   });
 

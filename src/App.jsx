@@ -5,14 +5,15 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import './App.css';
 import { BrowserRouter, Routes, Route, } from "react-router-dom";
 import Login from './components/Login'
+import Home from './components/Home';
 
 function App() {
   return (
     <BrowserRouter>
     <Routes>
-      <Route exact path="/" element={<Login />} />
+      <Route exact path="/login" element={<Login />} />
       <Route element={<ProtectedRoute />}>
-        <Route exact path="/courses" element={<>hello</>} />
+        <Route exact path="/" element={<Home/>} />
       </Route>
     </Routes>
   </BrowserRouter>
