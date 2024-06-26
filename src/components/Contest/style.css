@@ -1,0 +1,83 @@
+
+.contests-div {
+    padding: 20px 80px 0;
+    margin-bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  
+  ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px; /* Adjust height as needed */
+  }
+  
+  /* Contest card styling */
+  .contest-card {
+    padding: 30px;
+    margin: 0 200px;
+    width: 100%;
+    max-width: 1200px;
+  }
+  
+  .no-ongoing-text {
+    text-align: center;
+    font-size: 25px;
+    margin: 40px 0;
+    color: #888;
+  }
+  
+  .ongoingText {
+    font-size: 25px;
+    margin-bottom: 10px;
+    color: #203d88;
+  }
+  
+  .up-on-card {
+    border: 1px solid #01032c;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    
+  }
+  
+  /* Responsive styles */
+  @media only screen and (max-width: 1200px) {
+    .contest-card {
+      margin: 0 100px;
+    }
+  }
+  
+  @media only screen and (max-width: 768px) {
+    .contests-div {
+      padding: 20px;
+    }
+  
+    .contest-card {
+      padding: 20px;
+      margin: 0;
+    }
+  
+    .no-ongoing-text,
+    .ongoingText {
+      font-size: 20px;
+    }
+  
+    .up-on-card {
+      width: 100%;
+      padding: 10px;
+      margin: 30px 0 10px;
+    }
+  }
+  

@@ -20,6 +20,8 @@ import CourseHome from "./components/CourseLanding/CourseHome";
 import ModuleHome from "./components/Lessons/ModuleHome";
 import LessonPage from "./components/Lessons/LessonPage";
 import LeaderBoard from "./components/leaderboard/LeaderBoard";
+import ContestPage from "./components/Contest/ContestPage";
+import Jobs from "./components/jobs/JobsPage";
 function App() {
   return (
     <BrowserRouter>
@@ -28,8 +30,8 @@ function App() {
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<Home />}>
             <Route index element={<LandingPage />} />
-            <Route path="jobs" element={<p>jobs</p>} />
-            <Route path="contests" element={<p>contests</p>} />
+            <Route path="jobs" element={<Jobs/>} />
+            <Route path="contests" element={<ContestPage/>} />
             <Route path="leaderboard" element={<LeaderBoard/>} />
             <Route path="courses">
               <Route index element={<AllCourses />} />

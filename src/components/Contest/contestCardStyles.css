@@ -1,0 +1,36 @@
+.contest-text {
+    margin: 0;
+    font-size: 17px;
+  }
+  
+  .contest-title {
+    font-size: 25px;
+  }
+  
+  .contest-img {
+    height: 110px;
+    border-radius: 10px;
+    margin-right: 20px;
+  }
+  
+  .contest-list {
+    margin-top: 10px;
+    display: flex;
+    margin-bottom: 20px;
+  }
+  
+  /* Media query for mobile devices */
+  @media only screen and (max-width: 768px) {
+    .contest-text {
+      font-size: 14px;
+    }
+  
+    .contest-title {
+      font-size: 18px;
+    }
+  
+    .contest-img {
+      height: 60px;
+      margin-right: 10px;
+    }
+  }
