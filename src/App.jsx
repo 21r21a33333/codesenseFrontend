@@ -17,6 +17,8 @@ import AllCourses from "./components/Courses/AllCourses";
 import { Outlet } from "react-router-dom";
 import CourseLandingLayout from "./components/CourseLanding/courseLandingLayout";
 import CourseHome from "./components/CourseLanding/CourseHome";
+import ModuleHome from "./components/Lessons/ModuleHome";
+import LessonPage from "./components/Lessons/LessonPage";
 function App() {
   return (
     <BrowserRouter>
@@ -25,21 +27,19 @@ function App() {
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<Home />}>
             <Route index element={<LandingPage />} />
-            <Route path="leaderboard" element={<p>leaderboard</p>} />
-            <Route path="courses">
-              <Route index element={ <AllCourses />} />
-              <Route
-                path=":courseid"
-                element={
-                  <CourseLandingLayout/>
-                }
-              >
-                <Route index element={<CourseHome/>} />
-                <Route path=":lessonid" element={<p>lesson details</p>} />
-              </Route>
-            </Route>
             <Route path="jobs" element={<p>jobs</p>} />
             <Route path="contests" element={<p>contests</p>} />
+            <Route path="leaderboard" element={<p>leaderboard</p>} />
+            <Route path="courses">
+              <Route index element={<AllCourses />} />
+              <Route path=":courseid" element={<CourseLandingLayout />}>
+                <Route index element={<CourseHome />} />
+                <Route path=":moduleId"  >
+                  <Route index element={<ModuleHome/>} />
+                  <Route path=":lessonId" element={<LessonPage/>} />
+                </Route>
+              </Route>
+            </Route>
           </Route>
         </Route>
       </Routes>
