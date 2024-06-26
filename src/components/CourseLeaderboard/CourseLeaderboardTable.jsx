@@ -1,8 +1,8 @@
-import { useMemo, useState, useEffect } from "react";
-import React from "react";
+import React, { useMemo } from "react";
 import axios from "axios";
 import env from "../../../env";
 import Cookies from "js-cookie";
+import { useState , useEffect } from "react";
 
 // MRT Imports
 import {
@@ -27,8 +27,10 @@ import {
 // Icons Imports
 import { AccountCircle, Send } from "@mui/icons-material";
 
-const Example = () => {
-  const [data, setData] = useState([]);
+
+const Example = (props) => {
+
+    const [data, setData] = useState([]);
 
   useEffect(() => {
     const fetchLeaderboard = async () => {
@@ -36,32 +38,24 @@ const Example = () => {
       try {
         const config = {
           method: "get",
-          url: `${env.SERVER_URL}/leaderboard`,
+          url: `${env.SERVER_URL}/course/leaderboard/${props.courseid}`,
           headers: {
             Authorization: `Bearer ${jwtToken}`,
           },
         };
 
         const response = await axios(config);
-        setData(response.data.result.map(entry => ({
-          ...entry,
-          leetcode: Math.round(entry.leetcode),
-          codeforces: Math.round(entry.codeforces),
-          codechef: Math.round(entry.codechef),
-          hackerrank: Math.round(entry.hackerrank),
-          spoj: Math.round(entry.spoj),
-          totalScore: Math.round(entry.totalScore),
-        })));
+        setData(response.data.result);
         console.log("Fetched leaderboard data:", response.data.result);
       } catch (error) {
         console.error("Error fetching leaderboard:", error);
-        alert("Error fetching leaderboard");
+        console.log("Error fetching leaderboard");
       }
     };
 
     fetchLeaderboard();
   }, []);
-
+  
   const csvConfig = mkConfig({
     fieldSeparator: ',',
     decimalSeparator: '.',
@@ -88,90 +82,55 @@ const Example = () => {
           {
             accessorKey: "rank",
             header: "Rank",
-            size: 30,
+            size: 10,
             filterFn: "between",
           },
           {
             accessorKey: "name",
             header: "Name",
-            size: 120,
+            size: 40,
           },
           {
             accessorKey: "roll_no",
             header: "Roll No",
-            size: 120,
+            size: 40,
           },
           // Uncomment this if you want to display the email column
-       
+          // {
+          //   accessorKey: "email",
+          //   enableClickToCopy: true,
+          //   filterVariant: "autocomplete",
+          //   header: "Email",
+          //   size: 300,
+          // },
         ],
       },
       {
         id: "scores",
         header: "Scores",
         columns: [
+          
           {
-            accessorKey: "leetcode",
-            header: "Leetcode",
-            size: 120,
-            filterFn: "between",
-            Cell: ({ cell }) => Math.round(cell.getValue()),
-          },
-          {
-            accessorKey: "codeforces",
-            header: "Codeforces",
-            size: 120,
-            filterFn: "between",
-            Cell: ({ cell }) => Math.round(cell.getValue()),
-          },
-          {
-            accessorKey: "codechef",
-            header: "Codechef",
-            size: 120,
-            filterFn: "between",
-            Cell: ({ cell }) => Math.round(cell.getValue()),
-          },
-          {
-            accessorKey: "hackerrank",
-            header: "Hackerrank",
-            size: 120,
-            filterFn: "between",
-            Cell: ({ cell }) => Math.round(cell.getValue()),
-          },
-          {
-            accessorKey: "spoj",
-            header: "SPOJ",
-            size: 120,
-            filterFn: "between",
-            Cell: ({ cell }) => Math.round(cell.getValue()),
-          },
-          {
-            accessorKey: "totalScore",
-            header: "Total Score",
-            size: 120,
+            accessorKey: "score",
+            header: "Score",
+            size: 40,
             filterFn: "between",
             Cell: ({ cell }) => (
-              <Box
-                component="span"
-                sx={(theme) => ({
-                  backgroundColor: theme.palette.success.dark,
-                  borderRadius: "0.25rem",
-                  color: "#fff",
-                  maxWidth: "9ch",
-                  p: "0.25rem",
-                })}
-              >
-                {Math.round(cell.getValue())}
-              </Box>
-            ),
+                <Box
+                  component="span"
+                  sx={(theme) => ({
+                    backgroundColor: theme.palette.success.dark,
+                    borderRadius: "0.25rem",
+                    color: "#fff",
+                    maxWidth: "9ch",
+                    p: "0.25rem",
+                  })}
+                >
+                  {Math.round(cell.getValue())}
+                </Box>
+              ),
           },
-             {
-            accessorKey: "email",
-            enableClickToCopy: true,
-            filterVariant: "autocomplete",
-            header: "Email",
-            size: 200,
-          },
-         
+        
           // Uncomment this if you want to display the job title column
           // {
           //   accessorKey: "jobTitle",
@@ -276,7 +235,7 @@ const Example = () => {
       >
         {/* Profile dropdown */}
         <Box sx={{ textAlign: "center" }}>
-          <Typography variant="h4">ROLL NO:</Typography>
+          <Typography variant="h4">Roll No:</Typography>
           <Typography variant="h1">
             &quot;{row.original.roll_no}&quot;
           </Typography>
@@ -301,7 +260,6 @@ const Example = () => {
         key={1}
         onClick={() => {
           // Send email logic...
-          
           closeMenu();
         }}
         sx={{ m: 0 }}
@@ -321,151 +279,13 @@ const Example = () => {
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 
-const ExampleWithLocalizationProvider = () => (
+const ExampleWithLocalizationProvider = (props) => (
   // App.tsx or AppProviders file
   <div className="my-4">
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <Example />
+      <Example courseid={props.courseid}/>
     </LocalizationProvider>
   </div>
 );
 
 export default ExampleWithLocalizationProvider;
-
-//Mock Data
-// const data = [
-//   {
-//     name: "sairam",
-//     roll_no: "21r21a12f9",
-//     leetcode: 10855.401358413555,
-//     codeforces: 660,
-//     codechef: 2780,
-//     hackerrank: 410,
-//     spoj: 0,
-//     totalScore: 14705.401358413555,
-//     rank: 1
-//   },
-//   {
-//     name: "sujal",
-//     roll_no: "21R21A0557",
-//     leetcode: 12713.481066681821,
-//     codeforces: 750,
-//     codechef: 187.5,
-//     hackerrank: 10,
-//     spoj: 120,
-//     totalScore: 13780.981066681821,
-//     rank: 2
-//   },
-//   {
-//     name: "gaytri28",
-//     roll_no: "21r21a3328",
-//     leetcode: 1063.4444262029942,
-//     codeforces: 1260,
-//     codechef: 5710,
-//     hackerrank: 610,
-//     spoj: 160,
-//     totalScore: 8803.444426202994,
-//     rank: 3
-//   },
-//   {
-//     name: "tvih762",
-//     roll_no: "21R21A6614",
-//     leetcode: 0,
-//     codeforces: 0,
-//     codechef: 0,
-//     hackerrank: 0,
-//     spoj: 0,
-//     totalScore: 0,
-//     rank: 4
-//   }
-// ];
-
-      // Previous columns commented for reference
-      /*
-      {
-        id: "employee",
-        header: "Employee",
-        columns: [
-          {
-            accessorFn: (row) => `${row.firstName} ${row.lastName}`,
-            id: "name",
-            header: "Name",
-            size: 250,
-            Cell: ({ renderedCellValue }) => (
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "1rem",
-                }}
-              >
-                <span>{renderedCellValue}</span>
-              </Box>
-            ),
-          },
-          {
-            accessorKey: "email",
-            enableClickToCopy: true,
-            filterVariant: "autocomplete",
-            header: "Email",
-            size: 300,
-          },
-        ],
-      },
-      {
-        id: "id",
-        header: "Job Info",
-        columns: [
-          {
-            accessorKey: "salary",
-            filterFn: "between",
-            header: "Salary",
-            size: 120,
-            Cell: ({ cell }) => (
-              <Box
-                component="span"
-                sx={(theme) => ({
-                  backgroundColor:
-                    cell.getValue() < 50_000
-                      ? theme.palette.error.dark
-                      : cell.getValue() >= 50_000 && cell.getValue() < 75_000
-                      ? theme.palette.warning.dark
-                      : theme.palette.success.dark,
-                  borderRadius: "0.25rem",
-                  color: "#fff",
-                  maxWidth: "9ch",
-                  p: "0.25rem",
-                })}
-              >
-                {cell.getValue()?.toLocaleString?.("en-US", {
-                  style: "currency",
-                  currency: "USD",
-                  minimumFractionDigits: 0,
-                  maximumFractionDigits: 0,
-                })}
-              </Box>
-            ),
-          },
-          {
-            accessorKey: "jobTitle",
-            header: "Job Title",
-            size: 350,
-          },
-          {
-            accessorFn: (row) => new Date(row.startDate),
-            id: "startDate",
-            header: "Start Date",
-            filterVariant: "date",
-            filterFn: "lessThan",
-            sortingFn: "datetime",
-            Cell: ({ cell }) => cell.getValue()?.toLocaleDateString(),
-            Header: ({ column }) => <em>{column.columnDef.header}</em>,
-            muiFilterTextFieldProps: {
-              sx: {
-                minWidth: "250px",
-              },
-            },
-          },
-        ],
-      },
-      */
