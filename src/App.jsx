@@ -19,6 +19,7 @@ import CourseLandingLayout from "./components/CourseLanding/courseLandingLayout"
 import CourseHome from "./components/CourseLanding/CourseHome";
 import ModuleHome from "./components/Lessons/ModuleHome";
 import LessonPage from "./components/Lessons/LessonPage";
+import LeaderBoard from "./components/leaderboard/LeaderBoard";
 function App() {
   return (
     <BrowserRouter>
@@ -29,7 +30,7 @@ function App() {
             <Route index element={<LandingPage />} />
             <Route path="jobs" element={<p>jobs</p>} />
             <Route path="contests" element={<p>contests</p>} />
-            <Route path="leaderboard" element={<p>leaderboard</p>} />
+            <Route path="leaderboard" element={<LeaderBoard/>} />
             <Route path="courses">
               <Route index element={<AllCourses />} />
               <Route path=":courseid" element={<CourseLandingLayout />}>
