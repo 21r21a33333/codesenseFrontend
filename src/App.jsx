@@ -22,6 +22,7 @@ import LessonPage from "./components/Lessons/LessonPage";
 import LeaderBoard from "./components/leaderboard/LeaderBoard";
 import ContestPage from "./components/Contest/ContestPage";
 import Jobs from "./components/jobs/JobsPage";
+import Dashboard from "./components/dashboard/Dashboard";
 function App() {
   return (
     <BrowserRouter>
@@ -30,6 +31,8 @@ function App() {
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<Home />}>
             <Route index element={<LandingPage />} />
+
+            <Route path="dashboard" element={<Dashboard/>} />
             <Route path="jobs" element={<Jobs/>} />
             <Route path="contests" element={<ContestPage/>} />
             <Route path="leaderboard" element={<LeaderBoard/>} />
