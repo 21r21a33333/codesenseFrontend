@@ -32,16 +32,16 @@ function SidebarComponent() {
        {/* Button to open CourseLeaderboardTable as modal */}
        {/* <Button type="primary" >
           Leaderboard */}
-          <div className="flex justify-end">
-          <TbDeviceDesktopAnalytics onClick={handleOpenModal} className="mt-6 mx-2 w-6 h-6"/>
+          <div className="flex justify-end align-center"> 
+          <TbDeviceDesktopAnalytics onClick={handleOpenModal} className="mt-6 mx-2 w-6 h-6 hover:scale-125 transition delay-150 duration-300 ease-in-out"/>
           </div>
         {/* </Button> */}
-        <Menu>
+        <Menu className="my-1">
           {CourseData.modules &&
             CourseData.modules.map((module) => (
-              <SubMenu key={module.module_title} label={module.module_title}>
+              <SubMenu key={module.module_title} label={module.module_title} className="hover:scale-105 transition delay-150 duration-300 ease-in-out">
                 {module.lessons.map((lesson) => (
-                  <MenuItem key={lesson._id}>
+                  <MenuItem key={lesson._id} className="hover:scale-105 transition delay-150 duration-300 ease-in-out">
                     <Link to={`${module._id}/${lesson._id}`}>
                       <div className="flex">
                         {!lesson.problem_id ? (
