@@ -12,6 +12,7 @@ export const options = {
     3: { color: "darkorange" },   // LeetCode
     4: { color: "purple" }    // SPOJ
   }
+//   colors: ['#76A9FA', '#3F83F8', '#1C64F2', '#1A56DB', '#1E429F'],
 };
 
 export default function Piechart(props) {

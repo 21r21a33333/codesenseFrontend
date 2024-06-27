@@ -7,7 +7,9 @@ export const options = {
   vAxis: { minValue: 0 },
   chartArea: { width: "80%", height: "70%" },
   colors: ["#964B00", "#2196F3", "#4CAF50", "#FF9800", "#9C27B0"],
-  
+//   chartArea: { width: "50%", height: "70%" },
+//   colors: ['#76A9FA', '#4A1D96'],
+
 };
 
 export default function TotalScoreGraph({ data }) {
