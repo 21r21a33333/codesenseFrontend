@@ -14,6 +14,7 @@ export const options = {
   hAxis: { title: "Year", titleTextStyle: { color: "#333" } },
   vAxis: { minValue: 0 },
   chartArea: { width: "50%", height: "70%" },
+  colors: ['#76A9FA', '#4A1D96'],
 };
 
 export default function TotalScoreGraph() {

@@ -16,7 +16,7 @@ function Dashboard() {
           <h1 className="px-4 mb-2 text-2xl font-extrabold leading-none tracking-tight text-gray-900 md:text-3xl lg:text-4xl dark:text-white">
             Performance Analysis
           </h1>
-          <hr class="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700"></hr>
+          <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700"></hr>
           <div className="grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-2 gap-4">
             <div className="bg-white shadow rounded-lg p-1 sm:p-2 xl:p-2 ">
               <Piechart />
@@ -29,7 +29,7 @@ function Dashboard() {
         </div>
       </div>
       <h1 className="px-4 mb-2 my-4 text-2xl font-extrabold leading-none tracking-tight text-gray-900 md:text-3xl lg:text-4xl dark:text-white">Exercise</h1>
-            <hr class="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700"></hr>
+            <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700"></hr>
       <div className="my-4 bg-white shadow rounded-lg w-full flex justify-center ">
         <Heatmap />
       </div>

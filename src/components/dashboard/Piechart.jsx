@@ -13,6 +13,7 @@ export const data = [
 export const options = {
   title: "OVERALL CODING PLATFORM PROGRESS",
   is3D: true,
+  colors: ['#76A9FA', '#3F83F8', '#1C64F2', '#1A56DB', '#1E429F'],
 };
 
 export default function Piechart() {

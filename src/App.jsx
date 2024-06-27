@@ -23,6 +23,7 @@ import LeaderBoard from "./components/leaderboard/LeaderBoard";
 import ContestPage from "./components/Contest/ContestPage";
 import Jobs from "./components/jobs/JobsPage";
 import Dashboard from "./components/dashboard/Dashboard";
+import EditProfile from "./components/dashboard/EditProfile";
 function App() {
   return (
     <BrowserRouter>
@@ -32,7 +33,10 @@ function App() {
           <Route path="/" element={<Home />}>
             <Route index element={<LandingPage />} />
 
-            <Route path="dashboard" element={<Dashboard/>} />
+            <Route path="dashboard">
+              <Route index element={<Dashboard />} />
+              <Route path="editProfile" element={<EditProfile/>} />
+            </Route>
             <Route path="jobs" element={<Jobs/>} />
             <Route path="contests" element={<ContestPage/>} />
             <Route path="leaderboard" element={<LeaderBoard/>} />
