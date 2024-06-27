@@ -3,7 +3,8 @@ import React from "react";
 import axios from "axios";
 import env from "../../../env";
 import Cookies from "js-cookie";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+import DropdownStats from "./DropdownStats";
 
 // MRT Imports
 import {
@@ -13,7 +14,7 @@ import {
   MRT_ToggleFiltersButton,
 } from "material-react-table";
 import { mkConfig, generateCsv, download } from "export-to-csv";
-import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import FileDownloadIcon from "@mui/icons-material/FileDownload";
 
 // Material UI Imports
 import {
@@ -45,15 +46,17 @@ const Example = () => {
         };
 
         const response = await axios(config);
-        setData(response.data.result.map(entry => ({
-          ...entry,
-          leetcode: Math.round(entry.leetcode),
-          codeforces: Math.round(entry.codeforces),
-          codechef: Math.round(entry.codechef),
-          hackerrank: Math.round(entry.hackerrank),
-          spoj: Math.round(entry.spoj),
-          totalScore: Math.round(entry.totalScore),
-        })));
+        setData(
+          response.data.result.map((entry) => ({
+            ...entry,
+            leetcode: Math.round(entry.leetcode),
+            codeforces: Math.round(entry.codeforces),
+            codechef: Math.round(entry.codechef),
+            hackerrank: Math.round(entry.hackerrank),
+            spoj: Math.round(entry.spoj),
+            totalScore: Math.round(entry.totalScore),
+          }))
+        );
         console.log("Fetched leaderboard data:", response.data.result);
       } catch (error) {
         console.error("Error fetching leaderboard:", error);
@@ -65,8 +68,8 @@ const Example = () => {
   }, []);
 
   const csvConfig = mkConfig({
-    fieldSeparator: ',',
-    decimalSeparator: '.',
+    fieldSeparator: ",",
+    decimalSeparator: ".",
     useKeysAsHeaders: true,
   });
 
@@ -104,7 +107,6 @@ const Example = () => {
             size: 120,
           },
           // Uncomment this if you want to display the email column
-       
         ],
       },
       {
@@ -166,14 +168,14 @@ const Example = () => {
               </Box>
             ),
           },
-             {
+          {
             accessorKey: "email",
             enableClickToCopy: true,
             filterVariant: "autocomplete",
             header: "Email",
             size: 200,
           },
-         
+
           // Uncomment this if you want to display the job title column
           // {
           //   accessorKey: "jobTitle",
@@ -215,7 +217,7 @@ const Example = () => {
       shape: "rounded",
       variant: "outlined",
     },
-    enableRowSelection: true,
+    // enableRowSelection: true,
     columnFilterDisplayMode: "popover",
     paginationDisplayMode: "pages",
     positionToolbarAlertBanner: "bottom",
@@ -228,10 +230,7 @@ const Example = () => {
           flexWrap: "wrap",
         }}
       >
-        <Button
-          onClick={handleExportData}
-          startIcon={<FileDownloadIcon />}
-        >
+        <Button onClick={handleExportData} startIcon={<FileDownloadIcon />}>
           Export All Data
         </Button>
 
@@ -277,11 +276,15 @@ const Example = () => {
         }}
       >
         {/* Profile dropdown */}
-        <Box sx={{ textAlign: "center" }}>
-          <Typography variant="h4">ROLL NO:</Typography>
+        <Box sx={{ height: "100%", width: "100%" }}>  
+          {/* <Typography variant="h4">ROLL NO:</Typography>
           <Typography variant="h1">
             &quot;{row.original.roll_no}&quot;
-          </Typography>
+          </Typography>  */}
+
+          
+            <DropdownStats rollno={row.original.roll_no}/>
+          
         </Box>
       </Box>
     ),
@@ -289,7 +292,7 @@ const Example = () => {
       <MenuItem
         key={0}
         onClick={() => {
-          navigate('/dashboard');
+          navigate("/dashboard");
           closeMenu();
         }}
         sx={{ m: 0 }}
@@ -303,7 +306,7 @@ const Example = () => {
         key={1}
         onClick={() => {
           // Send email logic...
-          
+
           closeMenu();
         }}
         sx={{ m: 0 }}
@@ -383,8 +386,8 @@ export default ExampleWithLocalizationProvider;
 //   }
 // ];
 
-      // Previous columns commented for reference
-      /*
+// Previous columns commented for reference
+/*
       {
         id: "employee",
         header: "Employee",
