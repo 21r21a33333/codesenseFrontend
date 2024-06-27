@@ -27,10 +27,8 @@ const CoursePage = () => {
     return <div>Error: {error}</div>;
   }
 
-  return (
-    
-      
-      <div className='min-h-[calc(100vh-64px)]'>
+  return ( 
+      <div className='m-4 min-h-[calc(100vh-64px)]'>
       <div className='flex h-full '>
       <Sidebar/>
       <div className="no-scrollbar grow overflow-y-auto p-4">
