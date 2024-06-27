@@ -3,6 +3,7 @@ import React from "react";
 import axios from "axios";
 import env from "../../../env";
 import Cookies from "js-cookie";
+import { useNavigate } from 'react-router-dom';
 
 // MRT Imports
 import {
@@ -29,6 +30,7 @@ import { AccountCircle, Send } from "@mui/icons-material";
 
 const Example = () => {
   const [data, setData] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchLeaderboard = async () => {
@@ -88,7 +90,7 @@ const Example = () => {
           {
             accessorKey: "rank",
             header: "Rank",
-            size: 30,
+            size: 120,
             filterFn: "between",
           },
           {
@@ -287,7 +289,7 @@ const Example = () => {
       <MenuItem
         key={0}
         onClick={() => {
-          // View profile logic...
+          navigate('/dashboard');
           closeMenu();
         }}
         sx={{ m: 0 }}
@@ -320,6 +322,7 @@ const Example = () => {
 // Date Picker Imports - these should just be in your Context Provider
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { Link } from "react-router-dom";
 
 const ExampleWithLocalizationProvider = () => (
   // App.tsx or AppProviders file

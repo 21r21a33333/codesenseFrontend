@@ -5,9 +5,11 @@ export const options = {
   title: "Total Score",
   hAxis: { title: "Month", titleTextStyle: { color: "#333" } },
   vAxis: { minValue: 0 },
-  chartArea: { width: "80%", height: "70%" },
-  colors: ["#964B00", "#2196F3", "#4CAF50", "#FF9800", "#9C27B0"],
-//   chartArea: { width: "50%", height: "70%" },
+  // chartArea: { width: "70%", height: "70%" },
+  // colors: ["#964B00", "#2196F3", "#4CAF50", "#FF9800", "#9C27B0"],
+  colors: ['#76A9FA', '#3F83F8', '#1C64F2', '#1A56DB', '#1E429F'],
+  
+  chartArea: { width: "70%", height: "70%" },
 //   colors: ['#76A9FA', '#4A1D96'],
 
 };

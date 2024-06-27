@@ -5,14 +5,15 @@ export const options = {
   title: "OVERALL CODING PLATFORM PROGRESS",
   is3D: true,
   pieSliceText: "percentage",
-  slices: {
-    0: { color: "brown" },    // CodeChef
-    1: { color: "blue" },     // CodeForces
-    2: { color: "green" },    // HackerRank
-    3: { color: "darkorange" },   // LeetCode
-    4: { color: "purple" }    // SPOJ
-  }
-//   colors: ['#76A9FA', '#3F83F8', '#1C64F2', '#1A56DB', '#1E429F'],
+  // slices: {
+  //   0: { color: "brown" },    // CodeChef
+  //   1: { color: "blue" },     // CodeForces
+  //   2: { color: "green" },    // HackerRank
+  //   3: { color: "darkorange" },   // LeetCode
+  //   4: { color: "purple" }    // SPOJ
+  // }
+   colors: ['#76A9FA', '#3F83F8', '#1C64F2', '#1A56DB', '#1E429F'],
+   chartArea: { width: "70%", height: "70%" }
 };
 
 export default function Piechart(props) {
