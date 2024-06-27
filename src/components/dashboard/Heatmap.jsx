@@ -1,36 +1,50 @@
-import React from 'react'
-import { useState } from 'react';
-import HeatMap from '@uiw/react-heat-map';
+import React from 'react';
+import HeatMapComponent from '@uiw/react-heat-map'; // Rename imported component to avoid naming conflict
 import Tooltip from '@uiw/react-tooltip';
 
-const value = [
-  { date: '2016/01/11', count:2 },
-  ...[...Array(17)].map((_, idx) => ({ date: `2016/01/${idx + 10}`, count: idx })),
-  ...[...Array(17)].map((_, idx) => ({ date: `2016/02/${idx + 10}`, count: idx })),
-  { date: '2016/04/12', count:2 },
-  { date: '2016/05/01', count:5 },
-  { date: '2016/05/02', count:5 },
-  { date: '2016/05/03', count:1 },
-  { date: '2016/05/04', count:11 },
-  { date: '2016/05/08', count:32 },
-];
+function Heatmap(props) {
+  // Extract data from props and format it for the heatmap
+  const value = props.data.map(entry => {
+    const date = new Date(entry.date).toISOString().split('T')[0]; // Format date as YYYY-MM-DD
+    const count = parseInt(entry.codechef_solved_today, 10) +
+                  parseInt(entry.codeforces_solved_today, 10) +
+                  parseInt(entry.hackerrank_solved_today, 10) +
+                  parseInt(entry.leetcode_solved_today, 10) +
+                  parseInt(entry.spoj_solved_today, 10);
+    return { date, count };
+  });
 
-function Heatmap() {
-    return (
-      <HeatMap
-        value={value}
-        width={"90%"}
-        startDate={new Date('2016/01/01')}
-        rectRender={(props, data) => {
-          // if (!data.count) return <rect {...props} />;
-          return (
-            <Tooltip placement="top" content={`count: ${data.count || 0}`}>
-              <rect {...props} />
-            </Tooltip>
-          );
-        }}
-      />
-    )
-  };
+  // Determine the start date from the first element of the data
+  const startDate = new Date(props.data[0].date);
 
-export default Heatmap
+  return (
+    <HeatMapComponent // Use a distinct name for your component
+      value={value}
+      width={"90%"}
+      startDate={startDate}
+      rectRender={(props, data) => {
+        if (!data.count) return <rect {...props} />;
+        return (
+          <Tooltip 
+            placement="top" 
+            content={`Date: ${data.date}, Count: ${data.count || 0}`}
+            delay={{ show: 0 , hide:0 }}
+          >
+            <rect {...props} />
+          </Tooltip>
+        );
+      }}
+      panelTitles={{
+        0: "Sunday",
+        1: "Monday",
+        2: "Tuesday",
+        3: "Wednesday",
+        4: "Thursday",
+        5: "Friday",
+        6: "Saturday",
+      }}
+    />
+  );
+}
+
+export default Heatmap;
