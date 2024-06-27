@@ -270,7 +270,7 @@ const Example = () => {
           display: "flex",
           justifyContent: "space-around",
           left: "30px",
-          maxWidth: "1000px",
+          maxWidth: "90vw",
           position: "sticky",
           width: "100%",
         }}

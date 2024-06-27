@@ -48,9 +48,7 @@ import  { useEffect, useState } from "react";
       setLoading(false);
     };
     getHeatData();
-    getData();
-   
-    
+    getData();  
   }, []);
 
 

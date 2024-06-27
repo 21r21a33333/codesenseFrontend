@@ -30,9 +30,9 @@ function DropdownStats(props) {
   return (
     <div className="h-full w-full">
       {loading ? (
-        <p>laoding</p>
+        <p>loading</p>
       ) : (
-        <div className="grid grid-cols-2 xl:grid-cols-2 2xl:grid-cols-2 gap-4 ">
+          <div className="grid grid-cols-2 xl:grid-cols-2 2xl:grid-cols-2 gap-4 ">
           <div className="bg-white shadow rounded-lg p-1 sm:p-2 xl:p-2 ">
             <Piechart data={HeatMapData} />
           </div>
