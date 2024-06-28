@@ -19,6 +19,8 @@ import { Run, Submit } from "../../../controllers";
 import env from "../../../env";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { BiBorderRadius } from "react-icons/bi";
+import SubmissionsModal from "./SubmissionsModal";
 
 function TestcasesSidebar(props) {
   let ProblemId = useSelector((state) => state.ide.currentProblemId);
@@ -384,15 +386,31 @@ function SelectLanguage(props) {
   let language = useSelector((state) => state.ide.language);
   let { langSelected, setLangSelected } = props;
   setLangSelected(language);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const openModal = () => setIsOpen(true);
+  const closeModal = () => setIsOpen(false);
   return (
-    <div className="my-2 flex justify-between items-center ">
+    <div className="my-2 flex justify-between items-center border-t-4 p-2 border-blue-600 ">
       {/* <!-- Flex container --> */}
-      <div className="flex items-center">
-        {/* <!-- Your content here --> */}
-        <h1>ProblemId</h1>
+      <div className="flex items-center z-10 ">
+      <div>
+      <button
+        type="button"
+        className="border-gray-300 py-3 px-4 inline-flex items-center gap-x-2  rounded-full  hover:bg-blue-100 disabled:opacity-50 disabled:pointer-events-none "
+        onClick={openModal}
+      >
+        Previous Submissions
+      </button>
+
+      {isOpen && (
+        <SubmissionsModal closeModal={closeModal}/>
+      )}
+    </div>
+        
       </div>
       {/* <!-- Dropdown aligned to the end --> */}
-      <div className="relative mx-4">
+      <div className="relative mx-4" title="Select Language">
         {/* <!-- Your dropdown button --> */}
         <button
           onClick={() => {
