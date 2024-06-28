@@ -46,7 +46,7 @@ const Example = (props) => {
 
         const response = await axios(config);
         setData(response.data.result);
-        console.log("Fetched leaderboard data:", response.data.result);
+        console.log("Fetched Course leaderboard data:", response.data.result);
       } catch (error) {
         console.error("Error fetching leaderboard:", error);
         console.log("Error fetching leaderboard");

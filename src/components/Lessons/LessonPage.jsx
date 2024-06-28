@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchLessonData } from '../../redux/Courseslice';
 import { useParams } from 'react-router-dom';
 import EditorComponent from '../Ide/EditorComponent';
+import { ClipLoader } from 'react-spinners';
 
 function LessonPage() {
   const { lessonId } = useParams();
@@ -18,7 +19,9 @@ function LessonPage() {
   }, [lessonId, dispatch]);
 
   if (lessonStatus === 'loading') {
-    return <div>Loading...</div>;
+    return <div className="loading-container">
+    <ClipLoader size={50} color={"#123abc"} loading={true} />
+</div>;
   }
 
   if (lessonStatus === 'failed') {

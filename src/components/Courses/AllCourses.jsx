@@ -3,9 +3,11 @@ import axios from "axios"; // Make sure axios is imported
 import env from "../../../env";
 import Cookies from "js-cookie";
 import CourseCard from "./CourseCard";
+import { ClipLoader } from "react-spinners";
 
 const YourComponent = () => {
   const [courses, setCourses] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -26,6 +28,7 @@ const YourComponent = () => {
         console.error("Error fetching courses:", error);
         alert("Error fetching courses");
       }
+      setLoading(false);
     };
 
     fetchCourses();
@@ -34,6 +37,12 @@ const YourComponent = () => {
   // console.log(courses);
   return (
     <div className="px-16 flex flex-col items-center justify-center h-screen ">
+    {loading ? (
+        <div className="loading-container">
+          <ClipLoader size={50} color={"#123abc"} loading={loading} />
+        </div>
+      ) : (
+        <>
       <h2 className="mb-4 mt-2 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
         Courses
       </h2>
@@ -43,6 +52,7 @@ const YourComponent = () => {
         <CourseCard key={course.courseid} course={course} />
       ))}
       </div>
+      </>)}
     </div>
   );
 };
