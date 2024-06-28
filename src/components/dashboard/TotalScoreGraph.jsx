@@ -5,22 +5,17 @@ export const options = {
   title: "Total Score",
   hAxis: { title: "Month", titleTextStyle: { color: "#333" } },
   vAxis: { minValue: 0 },
-  // chartArea: { width: "70%", height: "70%" },
-  // colors: ["#964B00", "#2196F3", "#4CAF50", "#FF9800", "#9C27B0"],
   colors: ['#76A9FA', '#3F83F8', '#1C64F2', '#1A56DB', '#1E429F'],
-  
   chartArea: { width: "60%", height: "70%" },
-//   colors: ['#76A9FA', '#4A1D96'],
-
 };
 
 export default function TotalScoreGraph({ data }) {
   const [selectedYear, setSelectedYear] = useState("2024"); // Initial year
   const [monthlyData, setMonthlyData] = useState({});
 
-  // Transform data into monthly counts for all years
   useEffect(() => {
     const monthlyCounts = {};
+    const allMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
     data.forEach(entry => {
       const year = new Date(entry.date).getFullYear().toString();
@@ -28,15 +23,16 @@ export default function TotalScoreGraph({ data }) {
 
       if (!monthlyCounts[year]) {
         monthlyCounts[year] = {};
-      }
-      if (!monthlyCounts[year][month]) {
-        monthlyCounts[year][month] = {
-          CodeChef: 0,
-          CodeForces: 0,
-          HackerRank: 0,
-          LeetCode: 0,
-          Spoj: 0,
-        };
+        // Initialize all months to 0
+        allMonths.forEach(m => {
+          monthlyCounts[year][m] = {
+            CodeChef: 0,
+            CodeForces: 0,
+            HackerRank: 0,
+            LeetCode: 0,
+            Spoj: 0,
+          };
+        });
       }
 
       monthlyCounts[year][month].CodeChef += parseInt(entry.codechef_solved_today);
@@ -53,7 +49,6 @@ export default function TotalScoreGraph({ data }) {
     setSelectedYear(event.target.value);
   };
 
-  // Prepare chart data based on selected year
   const chartData = [["Month", "CodeChef", "CodeForces", "HackerRank", "LeetCode", "Spoj"]];
   if (monthlyData[selectedYear]) {
     Object.keys(monthlyData[selectedYear]).forEach(month => {
@@ -62,7 +57,6 @@ export default function TotalScoreGraph({ data }) {
     });
   }
 
-  // Derive available years from monthlyData
   const years = Object.keys(monthlyData);
 
   return (
