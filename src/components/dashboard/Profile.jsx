@@ -19,7 +19,7 @@ function Profile(props) {
       formData.append('file', file);
 
       try {
-        const response = await axios.post('http://localhost:8800/update/image', formData, {
+        const response = await axios.post(`${env.SERVER_URL}/update/image`, formData, {
           headers: {
             'Authorization': 'Bearer ' + jwtToken(),
             'Content-Type': 'multipart/form-data'
@@ -32,6 +32,7 @@ function Profile(props) {
         }
       } catch (error) {
         console.log('Error uploading image:', error);
+        alert('Error uploading image. Please check the file type.');
       }
     }
   };
@@ -61,7 +62,7 @@ function Profile(props) {
           </div>
           <div className="relative">
             <div className="w-48 h-48 bg-indigo-100 mx-auto rounded-full shadow-2xl absolute inset-x-0 top-0 -mt-24 flex items-center justify-center text-indigo-500">
-              {data.profile && data.profile.length !== 0 ? (
+              {profileImage && data.profile && data.profile.length !== 0 ? (
                 <img src={profileImage} alt="Profile" className="h-full w-full object-cover rounded-full" />
               ) : (
                 <svg
