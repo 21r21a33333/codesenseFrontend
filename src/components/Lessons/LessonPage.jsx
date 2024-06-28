@@ -37,7 +37,7 @@ function LessonPage() {
       ) : (
         <>
         <div dangerouslySetInnerHTML={{ __html: currentLesson.problem_id.problem_description }} />
-        <EditorComponent problem_id={currentLesson.problem_id.problem_id}></EditorComponent>
+        <EditorComponent problem_id={currentLesson.problem_id.problem_id} lessonPoints={currentLesson.lesson_points} lessonId={lessonId}></EditorComponent>
         </>
 
 

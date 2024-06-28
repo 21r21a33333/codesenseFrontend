@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import ResultComponent from "./ResultComponent";
 import { TextConverter } from "../../../controllers";
+import jwtToken from "../../helper/jwtToken";
 import {
   changeCode,
   toggleCustomInput,
@@ -17,6 +18,7 @@ import { useEffect } from "react";
 import { Run, Submit } from "../../../controllers";
 import env from "../../../env";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
 function TestcasesSidebar(props) {
   let ProblemId = useSelector((state) => state.ide.currentProblemId);
@@ -445,6 +447,8 @@ function SelectLanguage(props) {
 }
 
 function RunAndSubmit(props) {
+  let {moduleId,courseid,lessonId}=useParams();
+  // alert(`moduleId:${moduleId} courseid:${courseid}`);
   let dispatch = useDispatch();
   let code = useSelector((state) => state.ide.code);
   let language = useSelector((state) => state.ide.language);
@@ -455,6 +459,7 @@ function RunAndSubmit(props) {
   let { Result, setResult } = props;
   let { setResultTypeMessage } = props;
   let { setResultStatus } = props;
+  let {lessonPoints}=props;
 
   async function RunHelper(props) {
     setLoading(true);
@@ -464,6 +469,10 @@ function RunAndSubmit(props) {
       custominput,
       customInputData,
       currentProblemId,
+      moduleId,
+      courseid,
+      lessonPoints,
+      lessonId
     });
     setResult(JSON.stringify(data));
     // //console.log(data);
@@ -476,6 +485,10 @@ function RunAndSubmit(props) {
       custominput,
       customInputData,
       currentProblemId,
+      moduleId,
+      courseid,
+      lessonPoints,
+      lessonId
     });
     setResult(JSON.stringify(data));
     // //console.log(data);
@@ -512,7 +525,7 @@ function RunAndSubmit(props) {
 }
 
 function EditorComponent(props) {
-  let { problem_id } = props;
+  let { problem_id ,lessonPoints,lessonId} = props;
   // //alert(problem_id)
   const dispatch = useDispatch();
   let codeR = useSelector((state) => state.ide.code);
@@ -547,7 +560,10 @@ function EditorComponent(props) {
             method: "get",
             maxBodyLength: Infinity,
             url: `${env.SERVER_URL}/judge/getTestCases/${problem_id}`,
-            headers: {},
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${jwtToken()}`,
+            },
           };
           const response = await axios.request(config);
           // //console.log(response.data);
@@ -683,6 +699,8 @@ function EditorComponent(props) {
           ResultStatus={ResultStatus}
           setResultStatus={setResultStatus}
           setResultTypeMessage={setResultTypeMessage}
+          lessonPoints={lessonPoints}
+          lessonId={lessonId}
         ></RunAndSubmit>
       </div>
 
