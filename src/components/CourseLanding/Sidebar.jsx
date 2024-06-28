@@ -1,15 +1,25 @@
 import React, { useState } from "react";
-import { Sidebar, Menu, MenuItem, SubMenu, sidebarClasses } from "react-pro-sidebar";
+import {
+  Sidebar,
+  Menu,
+  MenuItem,
+  SubMenu,
+  sidebarClasses,
+} from "react-pro-sidebar";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import CourseLeaderboardTable from "../CourseLeaderboard/CourseLeaderboardTable";
 import { Modal, Button } from "antd"; // Assuming you have Ant Design installed for modal
 import { TbDeviceDesktopAnalytics } from "react-icons/tb";
-
+import { useDispatch } from "react-redux";
+import { Toggle } from "../../redux/Courseslice";
+import env from "../../../env";
+import jwtToken from "../../helper/jwtToken";
 
 function SidebarComponent() {
   const CourseData = useSelector((state) => state.course.course);
   const [showModal, setShowModal] = useState(false);
+  let dispatch = useDispatch();
 
   const handleOpenModal = () => {
     setShowModal(true);
@@ -29,19 +39,29 @@ function SidebarComponent() {
         }}
         style={{ height: "calc(100vh - 64px)", width: "300px" }}
       >
-       {/* Button to open CourseLeaderboardTable as modal */}
-       {/* <Button type="primary" >
+        {/* Button to open CourseLeaderboardTable as modal */}
+        {/* <Button type="primary" >
           Leaderboard */}
-          <div className="flex justify-end align-center"> 
-          <TbDeviceDesktopAnalytics onClick={handleOpenModal} className="mt-6 mx-2 w-6 h-6 hover:scale-125 transition delay-150 duration-300 ease-in-out"/>
-          </div>
+        <div className="flex justify-end align-center">
+          <TbDeviceDesktopAnalytics
+            onClick={handleOpenModal}
+            className="mt-6 mx-2 w-6 h-6 hover:scale-125 transition delay-150 duration-300 ease-in-out"
+          />
+        </div>
         {/* </Button> */}
         <Menu className="my-1">
           {CourseData.modules &&
             CourseData.modules.map((module) => (
-              <SubMenu key={module.module_title} label={module.module_title} className="hover:scale-105 transition delay-150 duration-300 ease-in-out">
+              <SubMenu
+                key={module.module_title}
+                label={module.module_title}
+                className="hover:scale-105 transition delay-150 duration-300 ease-in-out"
+              >
                 {module.lessons.map((lesson) => (
-                  <MenuItem key={lesson._id} className="hover:scale-105 transition delay-150 duration-300 ease-in-out">
+                  <MenuItem
+                    key={lesson._id}
+                    className="hover:scale-105 transition delay-150 duration-300 ease-in-out"
+                  >
                     <Link to={`${module._id}/${lesson._id}`}>
                       <div className="flex">
                         {!lesson.problem_id ? (
@@ -78,6 +98,84 @@ function SidebarComponent() {
                         <p className="mx-1">
                           {lesson.lesson_title.slice(0, 20)}
                         </p>
+
+                        <div className="align-end" title="Mark As Done">
+                          {lesson.completed ? (
+                            <div>
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                strokeWidth="1.5"
+                                stroke="green"
+                                className="size-6"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                                />
+                              </svg>
+                            </div>
+                          ) : (
+                            <div
+                              onClick={() => {
+                                const myHeaders = new Headers();
+                                myHeaders.append(
+                                  "Content-Type",
+                                  "application/json"
+                                );
+                                myHeaders.append("Authorization", `Bearer ${jwtToken()}`); // Replace with your actual authorization token
+
+                                const raw = JSON.stringify({
+                                  courseid: `${CourseData.courseid}`,
+                                  moduleid: `${module._id}`,
+                                  lessonid: `${lesson._id}`,
+                                  lessonpoints: `${lesson.lesson_points}`,
+                                });
+
+                                const requestOptions = {
+                                  method: "POST",
+                                  headers: myHeaders,
+                                  body: raw,
+                                  redirect: "follow",
+                                };
+
+                                fetch(
+                                  `${env.SERVER_URL}/add/progress`,
+                                  requestOptions
+                                )
+                                  .then((response) => response.text())
+                                  .then((result) => {console.log(result);dispatch(
+                                    Toggle({
+                                      moduleid: module._id,
+                                      lessonid: lesson._id,
+                                    })
+                                  );})
+                                  .catch((error) =>
+                                    console.error("Error:", error)
+                                  );
+
+                                
+                              }}
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                strokeWidth={1.5}
+                                stroke="currentColor"
+                                className="size-6"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                                />
+                              </svg>
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </Link>
                   </MenuItem>
@@ -85,8 +183,6 @@ function SidebarComponent() {
               </SubMenu>
             ))}
         </Menu>
-
-       
 
         {/* Modal for CourseLeaderboardTable */}
         <Modal
@@ -97,7 +193,7 @@ function SidebarComponent() {
           destroyOnClose
           width={800} // Adjust width as needed
         >
-          <CourseLeaderboardTable courseid={CourseData.courseid}/>
+          <CourseLeaderboardTable courseid={CourseData.courseid} />
         </Modal>
       </Sidebar>
     </div>

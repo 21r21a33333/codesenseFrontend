@@ -1,12 +1,21 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import env from '../../env';
+import jwtToken from '../helper/jwtToken';
 
 export const fetchCourseData = createAsyncThunk(
   'course/fetchCourseData',
   async (courseId, thunkAPI) => {
     const response = await fetch(`${env.SERVER_URL}/fetch/course/${courseId}`);
     const data = await response.json();
-    return data;
+    const responseProgress = await fetch(`${env.SERVER_URL}/fetch/progress/${courseId}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${jwtToken()}`, // Replace `authToken` with your actual token variable
+        'Content-Type': 'application/json' // Include this if you expect JSON response
+      }
+    });
+    const ProgressData = await responseProgress.json();
+    return { data, ProgressData };
   }
 );
 
@@ -31,7 +40,24 @@ const initialState = {
 export const courseSlice = createSlice({
   name: 'course',
   initialState,
-  reducers: {},
+  reducers: {
+    Toggle: (state, action) => {
+      let {moduleid,lessonid}=action.payload;
+      let course=state.course;
+      course.modules.map((module)=>{
+        if(module._id===moduleid){
+          module.lessons.map((lesson)=>{
+            if(lesson._id===lessonid){
+              lesson.completed=true;
+              state.course=course;
+              console.log(state.course);
+              return;
+            }
+          })
+        }
+      });
+    }
+  },
   extraReducers: (builder) => {
     builder
       // Course data fetching reducers
@@ -39,8 +65,27 @@ export const courseSlice = createSlice({
         state.courseStatus = 'loading';
       })
       .addCase(fetchCourseData.fulfilled, (state, action) => {
-        state.courseStatus = 'succeeded';
-        state.course = action.payload;
+        state.course = action.payload.data;
+
+        let progressData = action.payload.ProgressData;
+        for (const moduleProgress of progressData.progress) {
+          // Find the corresponding module in the course data
+          const module = state.course.modules.find(m => m._id === moduleProgress.moduleid);
+          if (module) {
+            // For each lesson in the module progress, find the corresponding lesson in the module's lessons
+            for (const lessonProgress of moduleProgress.lessons) {
+              const lesson = module.lessons.find(l => l._id === lessonProgress.lessonid);
+              if (lesson) {
+                // Mark the lesson as completed
+                lesson.completed = true;
+              }
+            }
+          }
+        }
+
+
+        console.log(state.course);
+
       })
       .addCase(fetchCourseData.rejected, (state, action) => {
         state.courseStatus = 'failed';
@@ -61,6 +106,6 @@ export const courseSlice = createSlice({
   },
 });
 
-export const {} = courseSlice.actions;
+export const { addProgress,Toggle } = courseSlice.actions;
 
 export default courseSlice.reducer;
