@@ -547,6 +547,15 @@ function EditorComponent(props) {
   useEffect(() => {
     //console.log("Component mounted");
     dispatch(setCurrentProblemId(problem_id));
+    const codeL = localStorage.getItem(`code${problem_id}`);
+    if(codeL){
+      dispatch(changeCode(codeL));
+      setCode(codeL);
+    }else{
+      dispatch(changeCode("#code here"));
+      setCode("#code here");
+    }
+    // dispatch(changeCode());
     const fetchTestCases = async () => {
       try {
         const testCasesL = localStorage.getItem(`testCases${problem_id}`);

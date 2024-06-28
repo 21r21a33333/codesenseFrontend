@@ -3,7 +3,7 @@ import axios from 'axios';
 
 let custominputL=localStorage.getItem("custominput");
 let languageL=localStorage.getItem("language");
-let codeL=localStorage.getItem("code");
+// let codeL=localStorage.getItem("code");
 let currentProblemIdL=localStorage.getItem("currentProblemId");
 let customInputDataL=localStorage.getItem("customInputData");
 
@@ -14,7 +14,8 @@ let customInputDataL=localStorage.getItem("customInputData");
 const initialState = {
     custominput:false,
     language: (languageL)?languageL:'python',
-    code:(codeL)?codeL:"#code here",
+    // code:(codeL)?codeL:"#code here",
+    code:"#code here",
     currentProblemId:(currentProblemIdL)?currentProblemIdL:"",
     customInputData:(customInputDataL)?customInputDataL:"",
     Result:"",
@@ -27,7 +28,7 @@ export const IdeSlice = createSlice({
   reducers: {
     changeCode:(state,action)=>{
         state.code=action.payload
-        localStorage.setItem("code",action.payload)
+        localStorage.setItem(`code${state.currentProblemId}`,action.payload)
     },
     toggleCustomInput:(state)=>{
         state.custominput=!state.custominput
