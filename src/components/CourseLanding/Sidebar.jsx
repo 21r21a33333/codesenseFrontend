@@ -117,7 +117,7 @@ function SidebarComponent() {
                                 />
                               </svg>
                             </div>
-                          ) : (
+                          ) : ( !lesson.problem_id && 
                             <div
                               onClick={() => {
                                 const myHeaders = new Headers();

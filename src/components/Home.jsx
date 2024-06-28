@@ -7,8 +7,15 @@ function Home() {
     <div >
       <NavbarComponent></NavbarComponent>
       <Outlet />
+      
     </div>
   )
 }
 
+
+
+
 export default Home
+
+
+

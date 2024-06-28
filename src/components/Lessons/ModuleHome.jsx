@@ -40,7 +40,7 @@ function ModuleHome() {
                                 />
                               </svg>
                             </div>
-                          ) : (
+                          ) : (!lesson.problem_id && 
                             <div className="border-radius: 3px"
                               onClick={() => {
                                 const myHeaders = new Headers();
