@@ -3,6 +3,16 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import jwtToken from "../../helper/jwtToken";
 import env from "../../../env";
 
+const isValidUrl = (url, platform) => {
+  const patterns = {
+    facebook: /^https?:\/\/(www\.)?facebook\.com\/[A-Za-z0-9_]+\/?$/,
+    twitter: /^https?:\/\/(www\.)?twitter\.com\/[A-Za-z0-9_]+\/?$/,
+    instagram: /^https?:\/\/(www\.)?instagram\.com\/[A-Za-z0-9_]+\/?$/,
+    linkedin: /^https?:\/\/(www\.)?linkedin\.com\/in\/[A-Za-z0-9_-]+\/?$/,
+    github: /^https?:\/\/(www\.)?github\.com\/[A-Za-z0-9_-]+\/?$/
+  };
+  return patterns[platform].test(url);
+};
 
 export default function EditProfile() {
   let location = useLocation();
@@ -28,6 +38,8 @@ export default function EditProfile() {
     github: '',
   });
 
+  const [errors, setErrors] = useState({});
+
   useEffect(() => {
     if (data) {
       setFormData({
@@ -52,9 +64,32 @@ export default function EditProfile() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    let error = '';
+
+    if (name === 'fb_handle' && value && !isValidUrl(value, 'facebook')) {
+      error = 'Invalid Facebook URL';
+    }
+    if (name === 'twitter_handle' && value && !isValidUrl(value, 'twitter')) {
+      error = 'Invalid Twitter URL';
+    }
+    if (name === 'insta_handle' && value && !isValidUrl(value, 'instagram')) {
+      error = 'Invalid Instagram URL';
+    }
+    if (name === 'linkedin_handle' && value && !isValidUrl(value, 'linkedin')) {
+      error = 'Invalid LinkedIn URL';
+    }
+    if (name === 'github' && value && !isValidUrl(value, 'github')) {
+      error = 'Invalid GitHub URL';
+    }
+
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
+    }));
+
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: error,
     }));
   };
 
@@ -64,6 +99,13 @@ export default function EditProfile() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const hasErrors = Object.values(errors).some((error) => error !== '');
+
+    if (hasErrors) {
+      alert('Please fix the errors in the form');
+      return;
+    }
+
     try {
       const response = await fetch(`${env.SERVER_URL}/update/details`, {
         method: 'POST',
@@ -224,7 +266,7 @@ export default function EditProfile() {
               </div>
             </div>
 
-            <div className="sm:col-span-3">
+            <div className="sm:col-span-2">
               <label htmlFor="dob" className="block text-sm font-medium leading-6 text-gray-900">
                 Date of Birth
               </label>
@@ -241,7 +283,7 @@ export default function EditProfile() {
               </div>
             </div>
 
-            <div className="sm:col-span-3">
+            <div className="sm:col-span-2">
               <label htmlFor="gender" className="block text-sm font-medium leading-6 text-gray-900">
                 Gender
               </label>
@@ -249,111 +291,129 @@ export default function EditProfile() {
                 <select
                   id="gender"
                   name="gender"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  autoComplete="sex"
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                   value={formData.gender}
                   onChange={handleChange}
                 >
-                  <option value="">Select Gender</option>
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
-                  <option value="other">Other</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Other">Other</option>
                 </select>
               </div>
             </div>
 
-            <div className="sm:col-span-6">
+            <div className="col-span-full">
               <label htmlFor="building" className="block text-sm font-medium leading-6 text-gray-900">
-                Building
+                House No
               </label>
               <div className="mt-2">
                 <input
                   type="text"
                   name="building"
                   id="building"
+                  autoComplete="building"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   value={formData.building}
                   onChange={handleChange}
                 />
               </div>
             </div>
+          </div>
+        </div>
 
-            <div className="sm:col-span-6">
+        <div className="border-b border-gray-900/10 pb-12">
+          <h2 className="text-base font-semibold leading-7 text-gray-900">Social Handles</h2>
+          <p className="mt-1 text-sm leading-6 text-gray-600">Add valid social media URLs.</p>
+
+          <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+            <div className="sm:col-span-3">
               <label htmlFor="fb_handle" className="block text-sm font-medium leading-6 text-gray-900">
-                Facebook Handle
+                Facebook URL
               </label>
               <div className="mt-2">
                 <input
                   type="text"
                   name="fb_handle"
                   id="fb_handle"
+                  autoComplete="fb_handle"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   value={formData.fb_handle}
                   onChange={handleChange}
                 />
+                {errors.fb_handle && <p className="text-sm text-red-600">{errors.fb_handle}</p>}
               </div>
             </div>
 
-            <div className="sm:col-span-6">
+            <div className="sm:col-span-3">
               <label htmlFor="twitter_handle" className="block text-sm font-medium leading-6 text-gray-900">
-                Twitter Handle
+                Twitter URL
               </label>
               <div className="mt-2">
                 <input
                   type="text"
                   name="twitter_handle"
                   id="twitter_handle"
+                  autoComplete="twitter_handle"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   value={formData.twitter_handle}
                   onChange={handleChange}
                 />
+                {errors.twitter_handle && <p className="text-sm text-red-600">{errors.twitter_handle}</p>}
               </div>
             </div>
 
-            <div className="sm:col-span-6">
+            <div className="sm:col-span-3">
               <label htmlFor="insta_handle" className="block text-sm font-medium leading-6 text-gray-900">
-                Instagram Handle
+                Instagram URL
               </label>
               <div className="mt-2">
                 <input
                   type="text"
                   name="insta_handle"
                   id="insta_handle"
+                  autoComplete="insta_handle"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   value={formData.insta_handle}
                   onChange={handleChange}
                 />
+                {errors.insta_handle && <p className="text-sm text-red-600">{errors.insta_handle}</p>}
               </div>
             </div>
 
-            <div className="sm:col-span-6">
+            <div className="sm:col-span-3">
               <label htmlFor="linkedin_handle" className="block text-sm font-medium leading-6 text-gray-900">
-                LinkedIn Handle
+                LinkedIn URL
               </label>
               <div className="mt-2">
                 <input
                   type="text"
                   name="linkedin_handle"
                   id="linkedin_handle"
+                  autoComplete="linkedin_handle"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   value={formData.linkedin_handle}
                   onChange={handleChange}
                 />
+                {errors.linkedin_handle && <p className="text-sm text-red-600">{errors.linkedin_handle}</p>}
               </div>
             </div>
 
-            <div className="sm:col-span-6">
+            <div className="sm:col-span-3">
               <label htmlFor="github" className="block text-sm font-medium leading-6 text-gray-900">
-                GitHub Handle
+                GitHub URL
               </label>
               <div className="mt-2">
                 <input
                   type="text"
                   name="github"
                   id="github"
+                  autoComplete="github"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   value={formData.github}
                   onChange={handleChange}
                 />
+                {errors.github && <p className="text-sm text-red-600">{errors.github}</p>}
               </div>
             </div>
           </div>
@@ -376,5 +436,7 @@ export default function EditProfile() {
         </button>
       </div>
     </form>
+  
   );
 }
+

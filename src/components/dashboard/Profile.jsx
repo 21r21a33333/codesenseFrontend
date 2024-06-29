@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaCamera } from "react-icons/fa"; 
 import axios from "axios";
@@ -9,30 +9,42 @@ function Profile(props) {
   const data = props.data;
   let [disPlayDetails, setDisPlayDetails] = useState(false);
   let [showModal, setShowModal] = useState(false);
-  let [profileImage, setProfileImage] = useState(data.profile);
+  let [profileImage, setProfileImage] = useState("");
   const nav = useNavigate();
+  useEffect(() => {
+    if (data.profile) {
+      setProfileImage(data.profile);
+    }
+  }, [data.profile]);
 
   const handleProfileImageChange = async (event) => {
     const file = event.target.files[0];
     if (file) {
-      const formData = new FormData();
-      formData.append('file', file);
-
-      try {
-        const response = await axios.post(`${env.SERVER_URL}/update/image`, formData, {
-          headers: {
-            'Authorization': 'Bearer ' + jwtToken(),
-            'Content-Type': 'multipart/form-data'
+      const validExtensions = ['jpg', 'jpeg', 'png'];
+      const fileExtension = file.name.split('.').pop().toLowerCase();
+  
+      if (validExtensions.includes(fileExtension)) {
+        const formData = new FormData();
+        formData.append('file', file);
+  
+        try {
+          const response = await axios.post(`${env.SERVER_URL}/update/image`, formData, {
+            headers: {
+              'Authorization': 'Bearer ' + jwtToken(),
+              'Content-Type': 'multipart/form-data'
+            }
+          });
+  
+          if (response.data && response.data.data) {
+            console.log('Image uploaded:', response.data.data);
+            setProfileImage(response.data.data);
           }
-        });
-
-        if (response.data && response.data.data) {
-          console.log('Image uploaded:', response.data.data)
-          setProfileImage(response.data.data);
+        } catch (error) {
+          console.log('Error uploading image:', error);
+          alert('Error uploading image. Please try again.');
         }
-      } catch (error) {
-        console.log('Error uploading image:', error);
-        alert('Error uploading image. Please check the file type.');
+      } else {
+        alert('Invalid file type. Please upload an image file (jpg, jpeg, png).');
       }
     }
   };
@@ -62,7 +74,7 @@ function Profile(props) {
           </div>
           <div className="relative">
             <div className="w-48 h-48 bg-indigo-100 mx-auto rounded-full shadow-2xl absolute inset-x-0 top-0 -mt-24 flex items-center justify-center text-indigo-500">
-              {profileImage && data.profile && data.profile.length !== 0 ? (
+              {profileImage &&  profileImage.length !== 0 ? (
                 <img src={profileImage} alt="Profile" className="h-full w-full object-cover rounded-full" />
               ) : (
                 <svg
@@ -80,7 +92,7 @@ function Profile(props) {
               )}
               <button className="absolute bottom-0 right-0 bg-blue-500 text-white rounded-full p-2 focus:outline-none hover:bg-blue-700 transition duration-150" aria-label="Update Profile Image">
                 <FaCamera />
-                <input type="file" className="absolute inset-0 opacity-0 cursor-pointer" onChange={handleProfileImageChange} />
+                <input type="file" accept="image/*" className="absolute inset-0 opacity-0 cursor-pointer" onChange={handleProfileImageChange} />
               </button>
             </div>
           </div>

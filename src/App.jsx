@@ -24,6 +24,7 @@ import ContestPage from "./components/Contest/ContestPage";
 import Jobs from "./components/jobs/JobsPage";
 import Dashboard from "./components/dashboard/Dashboard";
 import EditProfile from "./components/dashboard/EditProfile";
+import AvailableCourses from "./components/Courses/AvailableCourses";
 function App() {
   return (
     <BrowserRouter>
@@ -41,7 +42,9 @@ function App() {
             <Route path="contests" element={<ContestPage/>} />
             <Route path="leaderboard" element={<LeaderBoard/>} />
             <Route path="courses">
+           
               <Route index element={<AllCourses />} />
+              <Route path="availablecourses" element={<AvailableCourses />} />
               <Route path=":courseid" element={<CourseLandingLayout />}>
                 <Route index element={<CourseHome />} />
                 <Route path=":moduleId"  >
