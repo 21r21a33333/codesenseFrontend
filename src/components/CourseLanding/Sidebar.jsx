@@ -187,7 +187,7 @@ function SidebarComponent() {
         {/* Modal for CourseLeaderboardTable */}
         <Modal
           title="Course Leaderboard"
-          visible={showModal}
+          open={showModal}
           onCancel={handleCloseModal}
           footer={null}
           destroyOnClose

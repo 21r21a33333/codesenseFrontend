@@ -1,10 +1,16 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-
+import { ClipLoader } from "react-spinners";
 function CourseHome() {
   let course = useSelector((state) => state.course.course);
-  // console.log(course);
+  console.log(course);
+  if (Object.keys(course).length  === 0) {
+    return <div className="loading-container">
+    <ClipLoader size={50} color={"#123abc"} loading={true} />
+</div>;
+  }
+
   return (
     <>
     <div>

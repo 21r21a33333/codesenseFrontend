@@ -5,6 +5,7 @@ import env from "../../../env";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import DropdownStats from "./DropdownStats";
+import { ClipLoader } from "react-spinners";
 
 // MRT Imports
 import {
@@ -32,6 +33,7 @@ import { AccountCircle, Send } from "@mui/icons-material";
 const Example = () => {
   const [data, setData] = useState([]);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchLeaderboard = async () => {
@@ -62,6 +64,7 @@ const Example = () => {
         console.error("Error fetching leaderboard:", error);
         alert("Error fetching leaderboard");
       }
+      setLoading(false);
     };
 
     fetchLeaderboard();
@@ -319,7 +322,13 @@ const Example = () => {
     ],
   });
 
-  return <MaterialReactTable table={table} />;
+  return <>{loading ? (
+      <div className="loading-container">
+        <ClipLoader size={50} color={"#123abc"} loading={loading} />
+      </div>
+    ) : (
+      <MaterialReactTable table={table} />)}
+      </>
 };
 
 // Date Picker Imports - these should just be in your Context Provider
@@ -331,6 +340,7 @@ const ExampleWithLocalizationProvider = () => (
   // App.tsx or AppProviders file
   <div className="my-4">
     <LocalizationProvider dateAdapter={AdapterDayjs}>
+    
       <Example />
     </LocalizationProvider>
   </div>

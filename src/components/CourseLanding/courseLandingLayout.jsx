@@ -4,6 +4,7 @@ import { fetchCourseData } from "../../redux/Courseslice";
 import { Outlet } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import Sidebar from "./Sidebar";
+import { ClipLoader } from "react-spinners";
 import axios from "axios";
 import env from "../../../env";
 import jwtToken from "../../helper/jwtToken";
@@ -23,7 +24,9 @@ const CoursePage = () => {
   }, [courseId, dispatch]);
 
   if (status === "loading") {
-    return <div>Loading...</div>;
+    return <div className="loading-container">
+    <ClipLoader size={50} color={"#123abc"} loading={true} />
+</div>;
   }
 
   if (status === "failed") {
