@@ -329,7 +329,7 @@ import { Link } from "react-router-dom";
 
 const ExampleWithLocalizationProvider = () => (
   // App.tsx or AppProviders file
-  <div className="my-4">
+  <div className="my-4 px-16">
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Example />
     </LocalizationProvider>

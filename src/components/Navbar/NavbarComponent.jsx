@@ -30,12 +30,12 @@ function NavbarComponent() {
             className="flex items-center space-x-3 rtl:space-x-reverse"
           >
             <img
-              src="https://flowbite.com/docs/images/logo.svg"
+              src="../../public/logo.svg"
               className="h-8"
-              alt="Flowbite Logo"
+              alt="CodeSense Logo"
             />
             <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-              Flowbite
+              CodeSense
             </span>
           </Link>
           <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
@@ -72,15 +72,16 @@ function NavbarComponent() {
                   className="py-2 text-sm text-gray-700 dark:text-gray-200"
                   aria-labelledby="dropdownDefaultButton"
                 >
-                  <li>
+                  <li >
                     <Link
+                    onClick={()=>{ setIsOpen(fasle) }}
                       to="dashboard"
                       className="block px-4 py-2 text-center hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                     >
                       Dashboard
                     </Link>
                   </li>
-                  <li className="flex justify-center">
+                  <li className="flex justify-center"  >
                     <button
                       type="button"
                       className="block w-full text-center px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
