@@ -59,7 +59,7 @@ function CourseCard(props) {
             <p>{course.courseid}</p>
           </div>
         </div>
-        <div
+        {/* <div
           className="flex w-full h-4 bg-gray-200 rounded-full overflow-hidden dark:bg-neutral-700 mb-2"
           role="progressbar"
           aria-valuenow={100}
@@ -72,7 +72,7 @@ function CourseCard(props) {
           >
             75%
           </div>
-        </div>
+        </div> */}
 
         <button className="mt-4 mb-2 text-xl w-full text-white bg-indigo-600 py-2 rounded-xl shadow-lg">
           Continue Course
