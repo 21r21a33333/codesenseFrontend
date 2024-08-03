@@ -139,7 +139,7 @@ function Login() {
             className="m-12 xl:m-16 w-full bg-contain bg-center bg-no-repeat"
             style={{
               backgroundImage:
-                'url("https://storage.googleapis.com/devitary-image-host.appspot.com/15848031292911696601-undraw_designer_life_w96d.svg")'
+                'url("https://merakiui.com/images/components/Email-campaign-bro.svg")'
             }}
           ></div>
         </div>
