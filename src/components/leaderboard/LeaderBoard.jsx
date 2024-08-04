@@ -109,6 +109,11 @@ const Example = () => {
             header: "Roll No",
             size: 120,
           },
+          {
+            accessorKey: "branch",
+            header: "Branch",
+            size: 120,
+          },
           // Uncomment this if you want to display the email column
         ],
       },
