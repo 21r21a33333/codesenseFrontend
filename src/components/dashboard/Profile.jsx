@@ -11,6 +11,7 @@ function Profile(props) {
   let [showModal, setShowModal] = useState(false);
   let [profileImage, setProfileImage] = useState("");
   const nav = useNavigate();
+  
   useEffect(() => {
     if (data.profile) {
       setProfileImage(data.profile);
@@ -45,6 +46,39 @@ function Profile(props) {
         }
       } else {
         alert('Invalid file type. Please upload an image file (jpg, jpeg, png).');
+      }
+    }
+  };
+
+  const handleResumeUpload = async (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const validExtensions = ['pdf'];
+      const fileExtension = file.name.split('.').pop().toLowerCase();
+
+      if (validExtensions.includes(fileExtension)) {
+        const formData = new FormData();
+        formData.append('file', file);
+
+        try {
+          const response = await axios.post(`${env.SERVER_URL}/update/resume`, formData, {
+            headers: {
+              'Authorization': 'Bearer ' + jwtToken(),
+              'Content-Type': 'multipart/form-data'
+            }
+          });
+
+          if (response.data && response.data.data) {
+            console.log('Resume uploaded:', response.data.data);
+            alert('resume updated/uploaded successfully , Reload the page');
+            // Update the resume URL in the state or props
+          }
+        } catch (error) {
+          console.log('Error uploading resume:', error);
+          alert('Error uploading resume. Please try again.');
+        }
+      } else {
+        alert('Invalid file type. Please upload a PDF file.');
       }
     }
   };
@@ -121,14 +155,29 @@ function Profile(props) {
             </span>
             {data.about_me ? data.about_me : "null"}
           </p>
-          <div className="flex justify-start">
+          <div className="flex justify-start space-x-4">  {/* Added space-x-4 */}
     <button
       onClick={() => setShowModal(true)}
       className="text-white py-2 px-4 rounded bg-blue-600 hover:bg-blue-600 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5 mt-8"
     >
       Resume
     </button>
-  </div>
+    <button
+      className="text-white py-2 px-4 rounded bg-blue-500 hover:bg-blue-700 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5 mt-8"
+    >
+      <label htmlFor="resume-upload" className="cursor-pointer">
+        Update Resume
+      </label>
+      <input
+        type="file"
+        id="resume-upload"
+        accept=".pdf"
+        className="hidden"
+        onChange={handleResumeUpload}
+      />
+    </button>
+</div>
+
         </div>
         {disPlayDetails &&
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
